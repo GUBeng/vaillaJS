@@ -3,7 +3,7 @@ const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
-const save = document.getElementById("jsSave");
+const saveBtn = document.getElementById("jsSave");
 const INITINAL_COLOR = "#2c2c2c";
 const CANVAS_SIZE = 600;
 
@@ -68,7 +68,18 @@ function handleCanvasClick() {
         ctx.fillRect(0,0, CANVAS_SIZE, CANVAS_SIZE);
     }
 }
-
+// 우클릭 제한 기능 설정
+function handleCM(event) {
+    event.prevenDefault();
+}
+// 저장 기능 설정
+function handleSaveClick() {
+    const image = canvas.toDataURL();
+    const link = document.createElement("a");
+    link.href = image;
+    link.download = "PaintName";
+    link.click();
+}
 
 if (canvas) {
     canvas.addEventListener("mousemove", onMouseMove);
@@ -76,6 +87,7 @@ if (canvas) {
     canvas.addEventListener("mouseup", stopPainting);
     canvas.addEventListener("mouseleave", stopPainting);
     canvas.addEventListener("click", handleCanvasClick);
+    canvas.addEventListener("contextmenu", handleCM);
 }
 
 
@@ -92,3 +104,8 @@ if (range) {
 if (mode) {
     mode.addEventListener("click", handleModeClick);
 }
+// Save 버튼 실행 기능
+if (saveBtn) {
+    saveBtn.addEventListener("click", handleSaveClick)
+}
+    
